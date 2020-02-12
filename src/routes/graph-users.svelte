@@ -97,7 +97,7 @@
 
   .graph {
     background-color: black;;
-    height:300px;
+    height:100px;
     width:100%;
   }
 </style>
@@ -198,13 +198,15 @@
 	let numUsersConnected = 0;
 
   socket.on("message", function(message) {		
-		messages = messages.concat(message);
+    messages = messages.concat(message);
+    data.nodes.add({label: message})
 		updateScroll();
 	});
 	
 	socket.on("user joined", function({message, numUsers}) {
 		messages = messages.concat(message);
-		numUsersConnected = numUsers;
+    numUsersConnected = numUsers;
+    data.nodes.add({label: message})
 		updateScroll();
 	});
 
