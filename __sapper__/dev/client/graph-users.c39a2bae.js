@@ -39,7 +39,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (286:8) {#each messages as message}
+// (284:8) {#each messages as message}
 function create_each_block(ctx) {
 	var li, t_value = ctx.message, t, li_transition, current;
 
@@ -61,7 +61,7 @@ function create_each_block(ctx) {
 
 		h: function hydrate() {
 			attr(li, "class", "svelte-1pxwkss");
-			add_location(li, file, 286, 10, 5318);
+			add_location(li, file, 284, 10, 5198);
 		},
 
 		m: function mount(target, anchor) {
@@ -103,7 +103,7 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var link, meta, t0, body, div0, t1, div2, div1, ul, t2, form, input, t3, button, t4, t5, p, t6, t7_value = ctx.numUsersConnected == 1 ? 'is' : 'are', t7, t8, t9, t10, t11_value = ctx.numUsersConnected == 1 ? 'user' : 'users', t11, t12, current, dispose;
+	var meta, t0, body, div0, t1, div2, div1, ul, t2, form, input, t3, button, t4, t5, p, t6, t7_value = ctx.numUsersConnected == 1 ? 'is' : 'are', t7, t8, t9, t10, t11_value = ctx.numUsersConnected == 1 ? 'user' : 'users', t11, t12, current, dispose;
 
 	var each_value = ctx.messages;
 
@@ -119,7 +119,6 @@ function create_fragment(ctx) {
 
 	return {
 		c: function create() {
-			link = element("link");
 			meta = element("meta");
 			t0 = space();
 			body = element("body");
@@ -152,11 +151,6 @@ function create_fragment(ctx) {
 		},
 
 		l: function claim(nodes) {
-			link = claim_element(nodes, "LINK", { href: true, rel: true, class: true }, false);
-			var link_nodes = children(link);
-
-			link_nodes.forEach(detach);
-
 			meta = claim_element(nodes, "META", { name: true, content: true, class: true }, false);
 			var meta_nodes = children(meta);
 
@@ -224,40 +218,36 @@ function create_fragment(ctx) {
 
 		h: function hydrate() {
 			document_1.title = "Chat App";
-			attr(link, "href", "https://fonts.googleapis.com/css?family=Bungee+Outline|Noto+Sans&display=swap");
-			attr(link, "rel", "stylesheet");
-			attr(link, "class", "svelte-1pxwkss");
-			add_location(link, file, 106, 2, 1544);
 			attr(meta, "name", "viewport");
 			attr(meta, "content", "width=device-width, initial-scale=1.0");
 			attr(meta, "class", "svelte-1pxwkss");
-			add_location(meta, file, 109, 1, 1664);
+			add_location(meta, file, 107, 1, 1544);
 			attr(div0, "class", "graph svelte-1pxwkss");
 			attr(div0, "id", "mynet");
-			add_location(div0, file, 280, 2, 5159);
+			add_location(div0, file, 278, 2, 5039);
 			attr(ul, "id", "messages");
 			attr(ul, "class", "svelte-1pxwkss");
-			add_location(ul, file, 284, 6, 5253);
+			add_location(ul, file, 282, 6, 5133);
 			attr(div1, "id", "chatWindow");
 			attr(div1, "class", "svelte-1pxwkss");
-			add_location(div1, file, 283, 4, 5225);
+			add_location(div1, file, 281, 4, 5105);
 			attr(input, "id", "m");
 			attr(input, "autocomplete", "off");
 			attr(input, "placeholder", placeholder);
 			attr(input, "class", "svelte-1pxwkss");
-			add_location(input, file, 291, 6, 5419);
+			add_location(input, file, 289, 6, 5299);
 			attr(button, "class", "svelte-1pxwkss");
-			add_location(button, file, 292, 6, 5496);
+			add_location(button, file, 290, 6, 5376);
 			attr(form, "action", "");
 			attr(form, "class", "svelte-1pxwkss");
-			add_location(form, file, 290, 4, 5396);
+			add_location(form, file, 288, 4, 5276);
 			attr(p, "id", "numUsers");
 			attr(p, "class", "svelte-1pxwkss");
-			add_location(p, file, 294, 2, 5571);
+			add_location(p, file, 292, 2, 5451);
 			attr(div2, "class", "main svelte-1pxwkss");
-			add_location(div2, file, 281, 2, 5198);
+			add_location(div2, file, 279, 2, 5078);
 			attr(body, "class", "svelte-1pxwkss");
-			add_location(body, file, 279, 0, 5150);
+			add_location(body, file, 277, 0, 5030);
 
 			dispose = [
 				listen(window, "unload", ctx.emitUserDisconnect),
@@ -267,7 +257,6 @@ function create_fragment(ctx) {
 		},
 
 		m: function mount(target, anchor) {
-			append(document_1.head, link);
 			append(document_1.head, meta);
 			insert(target, t0, anchor);
 			insert(target, body, anchor);
@@ -355,7 +344,6 @@ function create_fragment(ctx) {
 		},
 
 		d: function destroy(detaching) {
-			detach(link);
 			detach(meta);
 
 			if (detaching) {
