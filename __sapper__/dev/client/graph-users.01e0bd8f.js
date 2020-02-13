@@ -1,5 +1,5 @@
 import { S as SvelteComponentDev, i as init, s as safe_not_equal, e as element, o as text, a as claim_element, b as children, p as claim_text, d as detach, f as attr, g as add_location, h as insert, q as append, r as set_data, D as create_bidirectional_transition, u as space, E as listen, F as prevent_default, t as transition_in, l as transition_out, C as check_outros, G as destroy_each, H as run_all, J as onMount, m as globals, I as add_render_callback, B as group_outros } from './chunk.0e38c6f1.js';
-import { i as io$1, f as fade } from './chunk.e8f031f8.js';
+import { i as io$1, f as fade } from './chunk.54fb5fdb.js';
 
 /**
  * vis-network
@@ -61,7 +61,7 @@ function create_each_block(ctx) {
 
 		h: function hydrate() {
 			attr(li, "class", "svelte-1pxwkss");
-			add_location(li, file, 286, 10, 5320);
+			add_location(li, file, 286, 10, 5318);
 		},
 
 		m: function mount(target, anchor) {
@@ -234,30 +234,30 @@ function create_fragment(ctx) {
 			add_location(meta, file, 109, 1, 1664);
 			attr(div0, "class", "graph svelte-1pxwkss");
 			attr(div0, "id", "mynet");
-			add_location(div0, file, 280, 2, 5161);
+			add_location(div0, file, 280, 2, 5159);
 			attr(ul, "id", "messages");
 			attr(ul, "class", "svelte-1pxwkss");
-			add_location(ul, file, 284, 6, 5255);
+			add_location(ul, file, 284, 6, 5253);
 			attr(div1, "id", "chatWindow");
 			attr(div1, "class", "svelte-1pxwkss");
-			add_location(div1, file, 283, 4, 5227);
+			add_location(div1, file, 283, 4, 5225);
 			attr(input, "id", "m");
 			attr(input, "autocomplete", "off");
 			attr(input, "placeholder", placeholder);
 			attr(input, "class", "svelte-1pxwkss");
-			add_location(input, file, 291, 6, 5421);
+			add_location(input, file, 291, 6, 5419);
 			attr(button, "class", "svelte-1pxwkss");
-			add_location(button, file, 292, 6, 5498);
+			add_location(button, file, 292, 6, 5496);
 			attr(form, "action", "");
 			attr(form, "class", "svelte-1pxwkss");
-			add_location(form, file, 290, 4, 5398);
+			add_location(form, file, 290, 4, 5396);
 			attr(p, "id", "numUsers");
 			attr(p, "class", "svelte-1pxwkss");
-			add_location(p, file, 294, 2, 5573);
+			add_location(p, file, 294, 2, 5571);
 			attr(div2, "class", "main svelte-1pxwkss");
-			add_location(div2, file, 281, 2, 5200);
+			add_location(div2, file, 281, 2, 5198);
 			attr(body, "class", "svelte-1pxwkss");
-			add_location(body, file, 279, 0, 5152);
+			add_location(body, file, 279, 0, 5150);
 
 			dispose = [
 				listen(window, "unload", ctx.emitUserDisconnect),
@@ -426,8 +426,7 @@ function instance($$self, $$props, $$invalidate) {
   let numUsersConnected = 0;
 
   socket.on("message", function(message) {		
-    $$invalidate('messages', messages = messages.concat(message));
-   // data.nodes.add({label: message})
+    $$invalidate('messages', messages = messages.concat(message.message));
 		updateScroll();
   });
   
@@ -486,8 +485,9 @@ function instance($$self, $$props, $$invalidate) {
       
 		}
 
-		$$invalidate('messages', messages = messages.concat(messageString));
-		socket.emit("message", messageString);
+    $$invalidate('messages', messages = messages.concat(messageString));
+    
+		socket.emit("message", {from: name, message:messageString});
 
 		updateScroll();
 

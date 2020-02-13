@@ -36,7 +36,7 @@ io(server).on('connection', function(socket) {
 
 
 	socket.on('login', function(msg) {
-		const id = uuidv4();
+		const id = msg; //uuidv4();
 		const node = {id:id, label:msg};
 		socket.broadcast.emit('logged', node);
 		socket.emit('logged', {...node, color:'gold', isMe:true});

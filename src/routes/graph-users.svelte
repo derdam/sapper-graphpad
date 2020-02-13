@@ -104,9 +104,7 @@
 
 <svelte:head>
   <title>Chat App</title>
-  <link
-    href="https://fonts.googleapis.com/css?family=Bungee+Outline|Noto+Sans&display=swap"
-    rel="stylesheet" />
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </svelte:head>
 
@@ -200,8 +198,7 @@
   let nodeMe={};
 
   socket.on("message", function(message) {		
-    messages = messages.concat(message);
-   // data.nodes.add({label: message})
+    messages = messages.concat(message.message);
 		updateScroll();
   });
   
@@ -261,8 +258,9 @@
       
 		}
 
-		messages = messages.concat(messageString);
-		socket.emit("message", messageString);
+    messages = messages.concat(messageString);
+    
+		socket.emit("message", {from: name, message:messageString});
 
 		updateScroll();
 

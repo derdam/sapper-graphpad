@@ -735,12 +735,12 @@ const ignore = [];
 
 const components = [
 	{
-		js: () => import('./index.c94b33f5.js'),
-		css: ["index.c94b33f5.css","chunk.e8f031f8.css"]
+		js: () => import('./index.48cf3a35.js'),
+		css: ["index.48cf3a35.css","chunk.54fb5fdb.css"]
 	},
 	{
-		js: () => import('./graph-users.789548bb.js'),
-		css: ["graph-users.789548bb.css","chunk.e8f031f8.css"]
+		js: () => import('./graph-users.01e0bd8f.js'),
+		css: ["graph-users.01e0bd8f.css","chunk.54fb5fdb.css"]
 	}
 ];
 

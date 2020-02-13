@@ -7177,8 +7177,8 @@ function create_fragment(ctx) {
 
 		h: function hydrate() {
 			attr(div, "id", "heading");
-			attr(div, "class", "svelte-qrpo8n");
-			add_location(div, file, 426, 0, 10081);
+			attr(div, "class", "svelte-ziew2f");
+			add_location(div, file, 426, 0, 10064);
 		},
 
 		m: function mount(target, anchor) {
