@@ -8,13 +8,13 @@
 
   body {
     font: 13px "Noto Sans";
-    background: #b34e7e;
+    background:black;
   }
 
   .main {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: top;
     align-items: center;
     height: 100vh;
   }
@@ -50,7 +50,7 @@
   }
 
 	#chatWindow {
-		height: 450px;
+		height: 350px;
     width: 100%;
     border: 3px solid #01b3ed;
 		overflow: auto;
@@ -97,7 +97,7 @@
 
   .graph {
     background-color: black;;
-    height:100px;
+    height:300px;
     width:100%;
   }
 </style>
@@ -195,18 +195,42 @@
   let messages = [greeting];
 	let message = "";
 	let name = 'Anonymous';
-	let numUsersConnected = 0;
+  let numUsersConnected = 0;
+  
+  let nodeMe={};
 
   socket.on("message", function(message) {		
     messages = messages.concat(message);
-    data.nodes.add({label: message})
+   // data.nodes.add({label: message})
 		updateScroll();
+  });
+  
+  socket.on("logged", function(message) {		
+   // messages = messages.concat(message);
+    
+    if (message.isMe) 
+    {
+      // replace default node with received node from server
+      message.id = 0 
+    };
+
+    data.nodes.update(message);
+
+    if (!message.isMe) {
+      data.edges.add({from: message.id, to:0});
+    }
+
+    
+    messages = messages.concat(JSON.stringify(message));
+    
+    updateScroll();
+     
 	});
 	
 	socket.on("user joined", function({message, numUsers}) {
 		messages = messages.concat(message);
     numUsersConnected = numUsers;
-    data.nodes.add({label: message})
+  //  data.nodes.add({label: message})
 		updateScroll();
 	});
 
@@ -230,8 +254,11 @@
 
 		if (message.slice(0, 5) == '/nick') {
 			let newName = message.slice(6);
-			messageString = `Server: ${name} changed their nickname to ${newName}`;
-			name = newName;
+      messageString = `Server: ${name} changed their nickname to ${newName}`;
+    
+      name = newName;
+        socket.emit("login", name);
+      
 		}
 
 		messages = messages.concat(messageString);
@@ -253,7 +280,7 @@
 <body>
   <div class="graph" id="mynet"></div>
   <div class="main">
-    <Heading text={'Chat App'} />
+   
     <div id="chatWindow">
       <ul id="messages">
         {#each messages as message}

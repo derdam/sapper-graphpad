@@ -5,6 +5,8 @@ import * as sapper from '@sapper/server';
 import http from 'http';
 import io from 'socket.io';
 
+import { v4 as uuidv4 } from 'uuid';
+
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
@@ -30,6 +32,15 @@ io(server).on('connection', function(socket) {
 
 	socket.on('message', function(msg) {
 		socket.broadcast.emit('message', msg);
+	})
+
+
+	socket.on('login', function(msg) {
+		const id = uuidv4();
+		const node = {id:id, label:msg};
+		socket.broadcast.emit('logged', node);
+		socket.emit('logged', {...node, color:'gold', isMe:true});
+		//socket.broadcast.emit('message', "login: "+msg);
 	})
 
 
