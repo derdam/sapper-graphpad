@@ -24,13 +24,16 @@ polka({ server }) // You can also use Express
 
 let numUsers = 0;
 let users = [];
+let userGraph = {nodes:[], edges:[]};
 
 io(server).on('connection', function(socket) {
 	++numUsers;
 	let message = 'Server: A new user has joined the chat';
 	socket.emit('user joined', { message, numUsers });
 	socket.broadcast.emit('user joined', { message, numUsers });
-	socket.emit('users', users);
+
+	socket.emit('userGraph', userGraph);
+	
 
 	socket.on('message', function(msg) {
 		socket.broadcast.emit('message', msg);
@@ -41,6 +44,10 @@ io(server).on('connection', function(socket) {
 		users.push(msg);
 		const id = msg; //uuidv4();
 		const node = {id:id, label:msg};
+
+		userGraph.nodes.push(node);
+		userGraph.edges.push({id: uuidv4(), from: 0, to: id});
+
 		socket.broadcast.emit('logged', node);
 		socket.emit('logged', {...node, color:'gold', isMe:true});
 

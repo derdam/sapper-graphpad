@@ -176,8 +176,6 @@
     });
 
 
-  
-
     setTimeout(() => {
           network.fit();
         }, 1000);
@@ -197,9 +195,12 @@
   
   let nodeMe={};
 
-  socket.on("message", function(message) {		
-    messages = messages.concat(message.message);
-		updateScroll();
+  socket.on("message", function(message) {	
+    if (message) { 	
+      messages = messages.concat(message);
+      updateScroll();
+    }
+	
   });
   
   socket.on("logged", function(message) {		
@@ -217,11 +218,6 @@
       data.edges.add({from: message.id, to:0});
     }
 
-    
-    messages = messages.concat(JSON.stringify(message));
-    
-    updateScroll();
-     
 	});
 	
 	socket.on("user joined", function({message, numUsers}) {
@@ -236,14 +232,14 @@
 		updateScroll();
   });
   
-  socket.on("users", function(users) {
-    //alert(JSON.stringify(users));
-    users.forEach(u => {
-      var ids = data.nodes.add({label:u})
-      data.edges.add({ from: ids[0], to: 0})
-    });
+ 
+  socket.on("userGraph", function(g) {
+    data.nodes.update(g.nodes);
+    data.edges.update(g.edges);
   });
 
+
+  
 	function emitUserDisconnect() {
 		socket.emit('user disconnect', name); 
 	}
@@ -268,7 +264,7 @@
 
     messages = messages.concat(messageString);
     
-		socket.emit("message", {from: name, message:messageString});
+		socket.emit("message", messageString);
 
 		updateScroll();
 
