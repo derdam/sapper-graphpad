@@ -61,7 +61,11 @@ io(server).on('connection', function(socket) {
 	})
 
 	socket.on('user disconnect', function(name) {
+		
 		socket.broadcast.emit('message', `Server: ${name} has left the chat.`)
+		/*userGraph.nodes = userGraph.nodes.filter(n=>n.id != name);
+		socket.broadcast.emit("userGraph",userGraph); */
+		
 	})
 });
 
