@@ -234,7 +234,15 @@
 	socket.on("user left", function(numUsers) {
 		numUsersConnected = numUsers;
 		updateScroll();
-	});
+  });
+  
+  socket.on("users", function(users) {
+    //alert(JSON.stringify(users));
+    users.forEach(u => {
+      var ids = data.nodes.add({label:u})
+      data.edges.add({ from: ids[0], to: 0})
+    });
+  });
 
 	function emitUserDisconnect() {
 		socket.emit('user disconnect', name); 
