@@ -119,9 +119,6 @@
 	
   import Heading from "../components/Heading.svelte";
   
-
-  
-
   var data = {
     nodes: new vis.DataSet([
       {id:0, label:'Hello'}]
@@ -132,15 +129,6 @@
   let options = {
     physics:{
     enabled: true,
-  /*  barnesHut: {
-      gravitationalConstant: -2000,
-      centralGravity: 0.3,
-      springLength: 95,
-      springConstant: 0.04,
-      damping: 0.09,
-      avoidOverlap: 0.0
-    }
-    */
     }, 
    autoResize: true,
             height: '100%',
@@ -160,15 +148,11 @@
     }
   };
 
-
-
-
   let network;
 
   onMount(async () => {
     // create a network
     var container = document.getElementById('mynet');
-    //alert(JSON.stringify(data));
     network = new vis.Network(container, data, {});    
     network.on("select", function (params) {
       // nodeSelection.selectNode(params.nodes[0]);
@@ -177,15 +161,12 @@
 
 
     setTimeout(() => {
-          network.fit();
+         // network.fit();
         }, 1000);
   
   });
   
-
-
 	const socket = io();
-
 	const placeholder = "Type your message here...";
 	const greeting = `You have joined the chat. Use '/nick your_nickname' to set your nickname!`
   let messages = [greeting];
@@ -214,6 +195,7 @@
 
     data.nodes.update(message);
 
+
     if (!message.isMe) {
       data.edges.add({from: message.id, to:0});
     }
@@ -231,15 +213,13 @@
 		numUsersConnected = numUsers;
 		updateScroll();
   });
-  
  
   socket.on("userGraph", function(g) {
+
     data.nodes.update(g.nodes);
     data.edges.update(g.edges);
   });
 
-
-  
 	function emitUserDisconnect() {
 		socket.emit('user disconnect', name); 
 	}
@@ -276,7 +256,8 @@
 		setTimeout(() => {
 			chatWindow.scrollTop = chatWindow.scrollHeight;			
 		}, 0);
-	}
+  }
+  
 </script>
 
 <body>

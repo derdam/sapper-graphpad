@@ -739,8 +739,8 @@ const components = [
 		css: ["index.48cf3a35.css","chunk.54fb5fdb.css"]
 	},
 	{
-		js: () => import('./graph-users.25f14772.js'),
-		css: ["graph-users.25f14772.css","chunk.54fb5fdb.css"]
+		js: () => import('./graph-users.c0204773.js'),
+		css: ["graph-users.c0204773.css","chunk.54fb5fdb.css"]
 	}
 ];
 

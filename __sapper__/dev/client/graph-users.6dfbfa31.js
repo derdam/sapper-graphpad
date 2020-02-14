@@ -39,7 +39,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (288:8) {#each messages as message}
+// (268:8) {#each messages as message}
 function create_each_block(ctx) {
 	var li, t_value = ctx.message, t, li_transition, current;
 
@@ -61,7 +61,7 @@ function create_each_block(ctx) {
 
 		h: function hydrate() {
 			attr(li, "class", "svelte-1pxwkss");
-			add_location(li, file, 288, 10, 5224);
+			add_location(li, file, 268, 10, 4988);
 		},
 
 		m: function mount(target, anchor) {
@@ -224,30 +224,30 @@ function create_fragment(ctx) {
 			add_location(meta, file, 107, 1, 1544);
 			attr(div0, "class", "graph svelte-1pxwkss");
 			attr(div0, "id", "mynet");
-			add_location(div0, file, 282, 2, 5065);
+			add_location(div0, file, 262, 2, 4829);
 			attr(ul, "id", "messages");
 			attr(ul, "class", "svelte-1pxwkss");
-			add_location(ul, file, 286, 6, 5159);
+			add_location(ul, file, 266, 6, 4923);
 			attr(div1, "id", "chatWindow");
 			attr(div1, "class", "svelte-1pxwkss");
-			add_location(div1, file, 285, 4, 5131);
+			add_location(div1, file, 265, 4, 4895);
 			attr(input, "id", "m");
 			attr(input, "autocomplete", "off");
 			attr(input, "placeholder", placeholder);
 			attr(input, "class", "svelte-1pxwkss");
-			add_location(input, file, 293, 6, 5325);
+			add_location(input, file, 273, 6, 5089);
 			attr(button, "class", "svelte-1pxwkss");
-			add_location(button, file, 294, 6, 5402);
+			add_location(button, file, 274, 6, 5166);
 			attr(form, "action", "");
 			attr(form, "class", "svelte-1pxwkss");
-			add_location(form, file, 292, 4, 5302);
+			add_location(form, file, 272, 4, 5066);
 			attr(p, "id", "numUsers");
 			attr(p, "class", "svelte-1pxwkss");
-			add_location(p, file, 296, 2, 5477);
+			add_location(p, file, 276, 2, 5241);
 			attr(div2, "class", "main svelte-1pxwkss");
-			add_location(div2, file, 283, 2, 5104);
+			add_location(div2, file, 263, 2, 4868);
 			attr(body, "class", "svelte-1pxwkss");
-			add_location(body, file, 281, 0, 5056);
+			add_location(body, file, 261, 0, 4820);
 
 			dispose = [
 				listen(window, "unload", ctx.emitUserDisconnect),
@@ -365,14 +365,11 @@ function updateScroll() {
 		setTimeout(() => {
 			chatWindow.scrollTop = chatWindow.scrollHeight;			
 		}, 0);
-	}
+}
 
 function instance($$self, $$props, $$invalidate) {
 	
   
-
-  
-
   var data = {
     nodes: new YO([
       {id:0, label:'Hello'}]
@@ -380,15 +377,11 @@ function instance($$self, $$props, $$invalidate) {
     edges: new YO()
   };
 
-
-
-
   let network;
 
   onMount(async () => {
     // create a network
     var container = document.getElementById('mynet');
-    //alert(JSON.stringify(data));
     network = new hC(container, data, {});    
     network.on("select", function (params) {
       // nodeSelection.selectNode(params.nodes[0]);
@@ -402,8 +395,6 @@ function instance($$self, $$props, $$invalidate) {
   
   });
   
-
-
 	const socket = io$1();
 	const greeting = `You have joined the chat. Use '/nick your_nickname' to set your nickname!`;
   let messages = [greeting];
@@ -429,10 +420,11 @@ function instance($$self, $$props, $$invalidate) {
     }
     data.nodes.update(message);
 
+/*
     if (!message.isMe) {
       data.edges.add({from: message.id, to:0});
     }
-
+*/
 	});
 	
 	socket.on("user joined", function({message, numUsers}) {
@@ -446,15 +438,12 @@ function instance($$self, $$props, $$invalidate) {
 		$$invalidate('numUsersConnected', numUsersConnected = numUsers);
 		updateScroll();
   });
-  
  
   socket.on("userGraph", function(g) {
     data.nodes.update(g.nodes);
     data.edges.update(g.edges);
   });
 
-
-  
 	function emitUserDisconnect() {
 		socket.emit('user disconnect', name); 
 	}

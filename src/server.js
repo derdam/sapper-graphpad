@@ -26,6 +26,8 @@ let numUsers = 0;
 let users = [];
 let userGraph = {nodes:[], edges:[]};
 
+
+
 io(server).on('connection', function(socket) {
 	++numUsers;
 	let message = 'Server: A new user has joined the chat';
@@ -34,7 +36,6 @@ io(server).on('connection', function(socket) {
 
 	socket.emit('userGraph', userGraph);
 	
-
 	socket.on('message', function(msg) {
 		socket.broadcast.emit('message', msg);
 	})
@@ -48,12 +49,14 @@ io(server).on('connection', function(socket) {
 		userGraph.nodes.push(node);
 		userGraph.edges.push({id: uuidv4(), from: 0, to: id});
 
+		
+
 		socket.broadcast.emit('logged', node);
 		socket.emit('logged', {...node, color:'gold', isMe:true});
 
+		
 		//socket.broadcast.emit('message', "login: "+msg);
 	})
-
 
 	socket.on('disconnect', function() {
 		--numUsers;
@@ -67,6 +70,9 @@ io(server).on('connection', function(socket) {
 		socket.broadcast.emit("userGraph",userGraph); */
 		
 	})
+
+   
+	
 });
 
 
