@@ -74,8 +74,8 @@ function create_fragment(ctx) {
 		},
 
 		h: function hydrate() {
-			attr(main, "class", "svelte-cf7x9y");
-			add_location(main, file, 11, 0, 153);
+			attr(main, "class", "svelte-1o2u2is");
+			add_location(main, file, 11, 0, 140);
 		},
 
 		m: function mount(target, anchor) {
@@ -739,8 +739,12 @@ const components = [
 		css: ["index.48cf3a35.css","chunk.54fb5fdb.css"]
 	},
 	{
-		js: () => import('./graph-users.c772df7e.js'),
-		css: ["graph-users.c772df7e.css","chunk.54fb5fdb.css"]
+		js: () => import('./graph-users.24fc3b41.js'),
+		css: ["graph-users.24fc3b41.css","chunk.54fb5fdb.css"]
+	},
+	{
+		js: () => import('./graphpad.9fefca0d.js'),
+		css: ["graphpad.9fefca0d.css","chunk.54fb5fdb.css"]
 	}
 ];
 
@@ -758,6 +762,14 @@ const routes = [
 		pattern: /^\/graph-users\/?$/,
 		parts: [
 			{ i: 1 }
+		]
+	},
+
+	{
+		// graphpad.svelte
+		pattern: /^\/graphpad\/?$/,
+		parts: [
+			{ i: 2 }
 		]
 	}
 ];

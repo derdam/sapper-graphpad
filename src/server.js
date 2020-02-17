@@ -6,6 +6,8 @@ import http from 'http';
 import io from 'socket.io';
 
 import { v4 as uuidv4 } from 'uuid';
+import { isUndefined } from 'util';
+import { SSL_OP_COOKIE_EXCHANGE } from 'constants';
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
@@ -26,7 +28,11 @@ let numUsers = 0;
 let users = [];
 let userGraph = {nodes:[], edges:[]};
 
-
+function updateGraph(socket) {
+    //  console.log("changeNode");
+    socket.broadcast.emit("userGraph", userGraph);
+	socket.emit("userGraph", userGraph);
+  }
 
 io(server).on('connection', function(socket) {
 	++numUsers;
@@ -49,12 +55,9 @@ io(server).on('connection', function(socket) {
 		userGraph.nodes.push(node);
 		userGraph.edges.push({id: uuidv4(), from: 0, to: id});
 
-		
-
 		socket.broadcast.emit('logged', node);
 		socket.emit('logged', {...node, color:'gold', isMe:true});
 
-		
 		//socket.broadcast.emit('message', "login: "+msg);
 	})
 
@@ -63,12 +66,38 @@ io(server).on('connection', function(socket) {
 		socket.broadcast.emit('user left', numUsers);
 	})
 
-	socket.on('user disconnect', function(name) {
-		
+	socket.on('message', function (msg) {
+		console.log("message", msg);
+	});
+
+
+	socket.on("addNode", function() {
+		let nodeId = uuidv4();
+		userGraph.nodes =  [...userGraph.nodes, {id: nodeId, label: 'New'}];
+		let edgeId = uuidv4();
+		userGraph.edges = [...userGraph.edges, { id: edgeId, from:0, to: nodeId}]
+		updateGraph(socket);
+	});
+
+	socket.on('updateNode', function(node) {
+	//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
+		userGraph.nodes =  [...userGraph.nodes, node];
+		updateGraph(socket);
+	});
+
+	socket.on('clear', function() {
+		//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
+			userGraph.nodes=[];
+			userGraph.edges=[];	
+			socket.emit("clear");
+			socket.broadcast.emit("clear");
+    
+		});
+
+	socket.on('user disconnect', function(name) {	
 		socket.broadcast.emit('message', `Server: ${name} has left the chat.`)
 		/*userGraph.nodes = userGraph.nodes.filter(n=>n.id != name);
 		socket.broadcast.emit("userGraph",userGraph); */
-		
 	})
 
    
