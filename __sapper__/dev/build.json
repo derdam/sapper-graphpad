@@ -2,22 +2,25 @@
   "bundler": "rollup",
   "shimport": "1.0.1",
   "assets": {
-    "main": "client.971e7911.js"
+    "main": "client.68809a13.js"
   },
   "css": {
     "main": "main.4081093757.css",
     "chunks": {
       "index.svelte": [
-        "index.48cf3a35.css",
-        "chunk.54fb5fdb.css"
+        "index.04b99af3.css",
+        "chunk.53e2f336.css"
+      ],
+      "classification.svelte": [
+        "classification.b6a3bd96.css"
       ],
       "graph-users.svelte": [
-        "graph-users.24fc3b41.css",
-        "chunk.54fb5fdb.css"
+        "graph-users.b97dbf1e.css",
+        "chunk.53e2f336.css"
       ],
       "graphpad.svelte": [
-        "graphpad.9fefca0d.css",
-        "chunk.54fb5fdb.css"
+        "graphpad.4b319b28.css",
+        "chunk.53e2f336.css"
       ]
     }
   }
