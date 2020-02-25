@@ -22,6 +22,7 @@ function createLsFin() {
 		subscribe,
 		setPrivate: () => update(n=>  n= {...n, clientType:'Private Client'}),
 		setProfessional: () => update(n=>  n= {...n, clientType:'Professional Client'}),
+		setOption:(option) => update(n=> n = {...n, option:option}),
 		reset: () => set({})
 	};
 

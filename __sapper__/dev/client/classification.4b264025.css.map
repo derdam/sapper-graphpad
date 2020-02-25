@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "file": "classification.4b264025.css",
+  "sources": [
+    "../../../../../../src/routes/classification.svelte"
+  ],
+  "sourcesContent": [
+    "\n<script>\n    import { count, lsFin } from '../stores/_lsFinStore.js';\n    import PrivateClient from '../components/privateClient.svelte';\n    import ProfessionalClient from '../components/professionalClient.svelte';\n    import PrivateClientOptions from '../components/privateClientOptions.svelte';\n</script>\n\n\n<style>\n\n  .classification {\n   color:white;\n  }\n</style>\n\n<div class=\"classification\">\n    <h3>Classification</h3>\n    <p>{$count}</p>\n    <p>Client type {$lsFin.clientType}</p>\n\n    {#if $lsFin.clientType === undefined}\n        <PrivateClient></PrivateClient>\n        <ProfessionalClient></ProfessionalClient>\n    {/if}\n\n    {#if $lsFin.clientType === \"Private Client\"}\n        <PrivateClientOptions></PrivateClientOptions>\n        \n    {/if}\n\n</div>\n\n"
+  ],
+  "names": [],
+  "mappings": "AAWE,eAAe,eAAC,CAAC,AAChB,MAAM,KAAK,AACZ,CAAC"
+}
