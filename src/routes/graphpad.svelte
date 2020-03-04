@@ -21,7 +21,7 @@
 
   .graph {
     background-color: black;;
-    height:300px;
+    height:600px;
     width:100%;
   }
 </style>
@@ -42,8 +42,7 @@
   import Heading from "../components/Heading.svelte";
   
   var data = {
-    nodes: new vis.DataSet([
-      {id:0, label:'Hello'}]
+    nodes: new vis.DataSet(
       ),
     edges: new vis.DataSet()
   };
@@ -71,6 +70,7 @@
   };
 
   let network;
+  let nodeUpdating = false;
 
   onMount(async () => {
     // create a network
@@ -82,40 +82,32 @@
     });
 
 
+   
+     data.nodes.on('update', function (event, properties, senderId) { 
+       
+     if (!nodeUpdating) {
+         nodeUpdating = true;
+
+       nodeUpdating = false;
+     }
+    });
+
     setTimeout(() => {
          // network.fit();
         }, 1000);
   
-  });
+    });
   
 	const socket = io();
 
   
-  let nodeMe={};
-
- 
-  
-  socket.on("logged", function(message) {		
-   // messages = messages.concat(message);
-    
-    if (message.isMe) 
-    {
-      // replace default node with received node from server
-      message.id = 0 
-    };
-
-    data.nodes.update(message);
+  //let nodeMe={};
 
 
-    if (!message.isMe) {
-      data.edges.add({from: message.id, to:0});
-    }
-
-	});
 	
 	
-   socket.on("message", function (msg) {
-       console.log("message", msg);
+  socket.on("message", function (msg) {
+       console.log("server message", msg);
    });
 
   socket.on("userGraph", function(g) {
@@ -128,7 +120,9 @@
     console.log("clear");
     data.nodes.clear();
     data.edges.clear();    
-     });
+  });
+
+
 
   function emitUserDisconnect() {
 	socket.emit('user disconnect', name); 
@@ -136,22 +130,39 @@
 
   function changeNode() {
     //  console.log("changeNode");
-    socket.emit("updateNode", {id:0, color:'gold'});
-    
+    nclass='foo';  
   }
 
-   function addNode() {
+  function addNode() {
     //  console.log("changeNode");
     socket.emit("addNode");
-    
   }
 
-   function clear() {
+  function clear() {
     //console.log("clear");
     socket.emit("clear");
-    
   }
+
+  function clearClasses() {
+   nclass="_default";  
+  }
+
+let label = '';
+
+$: {
+    if (label!='') {
+        socket.emit("updateNodeLabel", {id:0, label:label})
+    }
+}
   
+  
+let nclass = '';
+
+$: {
+    if (nclass!='') {
+        socket.emit("updateNodeClass", {id:0, class:nclass})
+    }
+}
 </script>
 
 <body>
@@ -159,5 +170,9 @@
   <button on:click={changeNode}>Change Node</button>
   <button on:click={addNode}>Add Node</button>
   <button on:click={clear}>Clear</button>
+ <button on:click={clearClasses}>Clear classes</button>
+Label: <input bind:value={label}>
+Class: <input bind:value={nclass}>
+
 
 </body>

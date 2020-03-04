@@ -26,13 +26,16 @@ polka({ server }) // You can also use Express
 
 let numUsers = 0;
 let users = [];
-let userGraph = {nodes:[], edges:[]};
+let userGraph = {nodes:[{id:0}], edges:[]};
 
 function updateGraph(socket) {
     //  console.log("changeNode");
     socket.broadcast.emit("userGraph", userGraph);
 	socket.emit("userGraph", userGraph);
   }
+
+
+
 
 io(server).on('connection', function(socket) {
 	++numUsers;
@@ -79,10 +82,42 @@ io(server).on('connection', function(socket) {
 		updateGraph(socket);
 	});
 
-	socket.on('updateNode', function(node) {
+	let nodeStyles= {
+		foo: {shape:'triangle', color:'red'},
+		bar: {shape:'diamond', color:'green'},
+		_default: {shape:null, color:null, font:null}
+	}
+
+	socket.on('updateNodeClass', function(node) {
+		//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
+			let snode = userGraph.nodes.find(e => e.id === node.id);
+			
+				let style = nodeStyles[node.class ? node.class:'_default'];
+				if (style===undefined) {
+					style = nodeStyles._default;
+				}
+				snode = {...snode, id: node.id, class:node.class, ...style}; //, ...style}
+				socket.emit("message" ,JSON.stringify(snode));
+				userGraph.nodes =  [...userGraph.nodes, snode];
+				// notify all users that the whole graph has been updated
+				updateGraph(socket);
+
+				// notify all users but the sender that this node class has changed
+				socket.broadcast.emit("nodeClassUpdated", snode);
+
+		});
+
+	socket.on('updateNodeLabel', function(node) {
 	//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
-		userGraph.nodes =  [...userGraph.nodes, node];
-		updateGraph(socket);
+		let snode = userGraph.nodes.find(e => e.id === node.id);
+			snode = {...snode, id: node.id, label:node.label}; //, ...style}
+			//socket.emit("message" ,JSON.stringify(snode));
+			userGraph.nodes =  [...userGraph.nodes, snode];
+			updateGraph(socket);
+
+			// notify all users but the sender that this node class has changed
+			socket.broadcast.emit("nodeLabelUpdated", snode);
+
 	});
 
 	socket.on('clear', function() {
