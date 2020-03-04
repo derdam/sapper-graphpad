@@ -2,7 +2,7 @@
   "bundler": "rollup",
   "shimport": "1.0.1",
   "assets": {
-    "main": "client.5efb898e.js"
+    "main": "client.6b1d4e69.js"
   },
   "css": {
     "main": "main.4081093757.css",
@@ -15,11 +15,15 @@
         "classification.37b85797.css"
       ],
       "graph-users.svelte": [
-        "graph-users.b97dbf1e.css",
+        "graph-users.3097339d.css",
         "chunk.53e2f336.css"
       ],
-      "graphpad.svelte": [
-        "graphpad.aa087759.css",
+      "graphpads/[slug].svelte": [
+        "[slug].684479e3.css",
+        "chunk.53e2f336.css"
+      ],
+      "graphpad[slug].svelte": [
+        "graphpad[slug].bc9708d1.css",
         "chunk.53e2f336.css"
       ]
     }

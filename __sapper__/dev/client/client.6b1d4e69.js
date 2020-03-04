@@ -702,16 +702,20 @@ const components = [
 		css: ["classification.37b85797.css"]
 	},
 	{
-		js: () => import('./graph-users.b97dbf1e.js'),
-		css: ["graph-users.b97dbf1e.css","chunk.53e2f336.css"]
+		js: () => import('./graph-users.3097339d.js'),
+		css: ["graph-users.3097339d.css","chunk.53e2f336.css"]
 	},
 	{
-		js: () => import('./graphpad.b1df53e9.js'),
-		css: ["graphpad.b1df53e9.css","chunk.53e2f336.css"]
+		js: () => import('./[slug].684479e3.js'),
+		css: ["[slug].684479e3.css","chunk.53e2f336.css"]
+	},
+	{
+		js: () => import('./graphpad[slug].bc9708d1.js'),
+		css: ["graphpad[slug].bc9708d1.css","chunk.53e2f336.css"]
 	}
 ];
 
-const routes = [
+const routes = (d => [
 	{
 		// index.svelte
 		pattern: /^\/$/,
@@ -737,13 +741,22 @@ const routes = [
 	},
 
 	{
-		// graphpad.svelte
-		pattern: /^\/graphpad\/?$/,
+		// graphpads/[slug].svelte
+		pattern: /^\/graphpads\/([^\/]+?)\/?$/,
 		parts: [
-			{ i: 3 }
+			null,
+			{ i: 3, params: match => ({ slug: d(match[1]) }) }
+		]
+	},
+
+	{
+		// graphpad[slug].svelte
+		pattern: /^\/graphpad([^\/]+?)\/?$/,
+		parts: [
+			{ i: 4, params: match => ({ slug: d(match[1]) }) }
 		]
 	}
-];
+])(decodeURIComponent);
 
 if (typeof window !== 'undefined') {
 	import('./sapper-dev-client.66640646.js').then(client => {
