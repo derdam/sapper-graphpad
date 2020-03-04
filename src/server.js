@@ -92,24 +92,24 @@ io(server).on('connection', function(socket) {
 		//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
 			let snode = userGraph.nodes.find(e => e.id === node.id);
 			
-				let style = nodeStyles[node.class ? node.class:'_default'];
-				if (style===undefined) {
-					style = nodeStyles._default;
-				}
-				snode = {...snode, id: node.id, class:node.class, ...style}; //, ...style}
-				socket.emit("message" ,JSON.stringify(snode));
-				userGraph.nodes =  [...userGraph.nodes, snode];
-				// notify all users that the whole graph has been updated
-				updateGraph(socket);
+			let style = nodeStyles[node.class ? node.class:'_default'];
+			if (style===undefined) {
+				style = nodeStyles._default;
+			}
+			snode = {...snode, id: node.id, class:node.class, ...style}; //, ...style}
+			socket.emit("message" ,JSON.stringify(snode));
+			userGraph.nodes =  [...userGraph.nodes, snode];
+			// notify all users that the whole graph has been updated
+			updateGraph(socket);
 
-				// notify all users but the sender that this node class has changed
-				socket.broadcast.emit("nodeClassUpdated", snode);
+			// notify all users but the sender that this node class has changed
+			socket.broadcast.emit("nodeClassUpdated", snode);
 
 		});
 
 	socket.on('updateNodeLabel', function(node) {
 	//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
-		let snode = userGraph.nodes.find(e => e.id === node.id);
+			let snode = userGraph.nodes.find(e => e.id === node.id);
 			snode = {...snode, id: node.id, label:node.label}; //, ...style}
 			//socket.emit("message" ,JSON.stringify(snode));
 			userGraph.nodes =  [...userGraph.nodes, snode];
@@ -117,7 +117,6 @@ io(server).on('connection', function(socket) {
 
 			// notify all users but the sender that this node class has changed
 			socket.broadcast.emit("nodeLabelUpdated", snode);
-
 	});
 
 	socket.on('clear', function() {
@@ -135,7 +134,6 @@ io(server).on('connection', function(socket) {
 		socket.broadcast.emit("userGraph",userGraph); */
 	})
 
-   
 	
 });
 

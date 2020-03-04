@@ -171,8 +171,9 @@ $: {
   <button on:click={addNode}>Add Node</button>
   <button on:click={clear}>Clear</button>
  <button on:click={clearClasses}>Clear classes</button>
-Label: <input bind:value={label}>
-Class: <input bind:value={nclass}>
+ <p>Label: <input bind:value={label}>
+    Class: <input bind:value={nclass}>
+</p>
 
 
 </body>

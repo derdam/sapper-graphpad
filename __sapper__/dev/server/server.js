@@ -482,7 +482,7 @@ const Graph_users = create_ssr_component(($$result, $$props, $$bindings, $$slots
 
 const css$4 = {
 	code: ".svelte-1888aql{margin:0;padding:0;box-sizing:border-box;overflow:hidden}body.svelte-1888aql{font:13px \"Noto Sans\";background:black}.svelte-1888aql::placeholder{color:#fff8b8}.graph.svelte-1888aql{background-color:black;height:600px;width:100%}",
-	map: "{\"version\":3,\"file\":\"graphpad.svelte\",\"sources\":[\"graphpad.svelte\"],\"sourcesContent\":[\"<style>\\n  * {\\n    margin: 0;\\n    padding: 0;\\n    box-sizing: border-box;\\n    overflow: hidden;\\n  }\\n\\n  body {\\n    font: 13px \\\"Noto Sans\\\";\\n    background:black;\\n  }\\n\\n\\n\\n  ::placeholder {\\n    color: #fff8b8;\\n  }\\n\\n\\n\\n  .graph {\\n    background-color: black;;\\n    height:600px;\\n    width:100%;\\n  }\\n</style>\\n\\n<svelte:head>\\n  <title>Graphpad</title>\\n\\t<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1.0\\\">\\n</svelte:head>\\n\\n<svelte:window on:unload={emitUserDisconnect}/>\\n\\n<script>\\n\\n  import { onMount } from 'svelte';\\n  import * as vis from 'vis-network';\\n  import io from \\\"socket.io-client\\\";\\n  import { fade } from \\\"svelte/transition\\\";\\t\\n  import Heading from \\\"../components/Heading.svelte\\\";\\n  \\n  var data = {\\n    nodes: new vis.DataSet(\\n      ),\\n    edges: new vis.DataSet()\\n  };\\n\\n  let options = {\\n    physics:{\\n    enabled: true,\\n    }, \\n   autoResize: true,\\n            height: '100%',\\n            width: '100%',\\n    interaction: { multiselect: true },\\n    nodes:{\\n      font: {color: '#ffffff'},\\n      shapeProperties: {\\n              useBorderWithImage:false,\\n              interpolation:true\\n      },\\n      //color:'#0077C8' \\n      color: '#33333333'\\n    }, edges: {\\n      color: \\\"0077C8\\\"\\n      ,smooth: { enabled: true}\\n    }\\n  };\\n\\n  let network;\\n  let nodeUpdating = false;\\n\\n  onMount(async () => {\\n    // create a network\\n    var container = document.getElementById('mynet');\\n    network = new vis.Network(container, data, {});    \\n    network.on(\\\"select\\\", function (params) {\\n      // nodeSelection.selectNode(params.nodes[0]);\\n      //  selection = params;\\n    });\\n\\n\\n   \\n     data.nodes.on('update', function (event, properties, senderId) { \\n       \\n     if (!nodeUpdating) {\\n         nodeUpdating = true;\\n\\n       nodeUpdating = false;\\n     }\\n    });\\n\\n    setTimeout(() => {\\n         // network.fit();\\n        }, 1000);\\n  \\n    });\\n  \\n\\tconst socket = io();\\n\\n  \\n  //let nodeMe={};\\n\\n\\n\\t\\n\\t\\n  socket.on(\\\"message\\\", function (msg) {\\n       console.log(\\\"server message\\\", msg);\\n   });\\n\\n  socket.on(\\\"userGraph\\\", function(g) {\\n  //  console.log(\\\"userGraph\\\", g);\\n    data.nodes.update(g.nodes);\\n    data.edges.update(g.edges);\\n  });\\n\\n  socket.on(\\\"clear\\\", function() {\\n    console.log(\\\"clear\\\");\\n    data.nodes.clear();\\n    data.edges.clear();    \\n  });\\n\\n\\n\\n  function emitUserDisconnect() {\\n\\tsocket.emit('user disconnect', name); \\n  }\\n\\n  function changeNode() {\\n    //  console.log(\\\"changeNode\\\");\\n    nclass='foo';  \\n  }\\n\\n  function addNode() {\\n    //  console.log(\\\"changeNode\\\");\\n    socket.emit(\\\"addNode\\\");\\n  }\\n\\n  function clear() {\\n    //console.log(\\\"clear\\\");\\n    socket.emit(\\\"clear\\\");\\n  }\\n\\n  function clearClasses() {\\n   nclass=\\\"_default\\\";  \\n  }\\n\\nlet label = '';\\n\\n$: {\\n    if (label!='') {\\n        socket.emit(\\\"updateNodeLabel\\\", {id:0, label:label})\\n    }\\n}\\n  \\n  \\nlet nclass = '';\\n\\n$: {\\n    if (nclass!='') {\\n        socket.emit(\\\"updateNodeClass\\\", {id:0, class:nclass})\\n    }\\n}\\n</script>\\n\\n<body>\\n  <div class=\\\"graph\\\" id=\\\"mynet\\\"></div>\\n  <button on:click={changeNode}>Change Node</button>\\n  <button on:click={addNode}>Add Node</button>\\n  <button on:click={clear}>Clear</button>\\n <button on:click={clearClasses}>Clear classes</button>\\nLabel: <input bind:value={label}>\\nClass: <input bind:value={nclass}>\\n\\n\\n</body>\\n\"],\"names\":[],\"mappings\":\"AACE,eAAE,CAAC,AACD,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,UAAU,CACtB,QAAQ,CAAE,MAAM,AAClB,CAAC,AAED,IAAI,eAAC,CAAC,AACJ,IAAI,CAAE,IAAI,CAAC,WAAW,CACtB,WAAW,KAAK,AAClB,CAAC,eAID,aAAa,AAAC,CAAC,AACb,KAAK,CAAE,OAAO,AAChB,CAAC,AAID,MAAM,eAAC,CAAC,AACN,gBAAgB,CAAE,KAAK,CACvB,OAAO,KAAK,CACZ,MAAM,IAAI,AACZ,CAAC\"}"
+	map: "{\"version\":3,\"file\":\"graphpad.svelte\",\"sources\":[\"graphpad.svelte\"],\"sourcesContent\":[\"<style>\\n  * {\\n    margin: 0;\\n    padding: 0;\\n    box-sizing: border-box;\\n    overflow: hidden;\\n  }\\n\\n  body {\\n    font: 13px \\\"Noto Sans\\\";\\n    background:black;\\n  }\\n\\n\\n\\n  ::placeholder {\\n    color: #fff8b8;\\n  }\\n\\n\\n\\n  .graph {\\n    background-color: black;;\\n    height:600px;\\n    width:100%;\\n  }\\n</style>\\n\\n<svelte:head>\\n  <title>Graphpad</title>\\n\\t<meta name=\\\"viewport\\\" content=\\\"width=device-width, initial-scale=1.0\\\">\\n</svelte:head>\\n\\n<svelte:window on:unload={emitUserDisconnect}/>\\n\\n<script>\\n\\n  import { onMount } from 'svelte';\\n  import * as vis from 'vis-network';\\n  import io from \\\"socket.io-client\\\";\\n  import { fade } from \\\"svelte/transition\\\";\\t\\n  import Heading from \\\"../components/Heading.svelte\\\";\\n  \\n  var data = {\\n    nodes: new vis.DataSet(\\n      ),\\n    edges: new vis.DataSet()\\n  };\\n\\n  let options = {\\n    physics:{\\n    enabled: true,\\n    }, \\n   autoResize: true,\\n            height: '100%',\\n            width: '100%',\\n    interaction: { multiselect: true },\\n    nodes:{\\n      font: {color: '#ffffff'},\\n      shapeProperties: {\\n              useBorderWithImage:false,\\n              interpolation:true\\n      },\\n      //color:'#0077C8' \\n      color: '#33333333'\\n    }, edges: {\\n      color: \\\"0077C8\\\"\\n      ,smooth: { enabled: true}\\n    }\\n  };\\n\\n  let network;\\n  let nodeUpdating = false;\\n\\n  onMount(async () => {\\n    // create a network\\n    var container = document.getElementById('mynet');\\n    network = new vis.Network(container, data, {});    \\n    network.on(\\\"select\\\", function (params) {\\n      // nodeSelection.selectNode(params.nodes[0]);\\n      //  selection = params;\\n    });\\n\\n\\n   \\n     data.nodes.on('update', function (event, properties, senderId) { \\n       \\n     if (!nodeUpdating) {\\n         nodeUpdating = true;\\n\\n       nodeUpdating = false;\\n     }\\n    });\\n\\n    setTimeout(() => {\\n         // network.fit();\\n        }, 1000);\\n  \\n    });\\n  \\n\\tconst socket = io();\\n\\n  \\n  //let nodeMe={};\\n\\n\\n\\t\\n\\t\\n  socket.on(\\\"message\\\", function (msg) {\\n       console.log(\\\"server message\\\", msg);\\n   });\\n\\n  socket.on(\\\"userGraph\\\", function(g) {\\n  //  console.log(\\\"userGraph\\\", g);\\n    data.nodes.update(g.nodes);\\n    data.edges.update(g.edges);\\n  });\\n\\n  socket.on(\\\"clear\\\", function() {\\n    console.log(\\\"clear\\\");\\n    data.nodes.clear();\\n    data.edges.clear();    \\n  });\\n\\n\\n\\n  function emitUserDisconnect() {\\n\\tsocket.emit('user disconnect', name); \\n  }\\n\\n  function changeNode() {\\n    //  console.log(\\\"changeNode\\\");\\n    nclass='foo';  \\n  }\\n\\n  function addNode() {\\n    //  console.log(\\\"changeNode\\\");\\n    socket.emit(\\\"addNode\\\");\\n  }\\n\\n  function clear() {\\n    //console.log(\\\"clear\\\");\\n    socket.emit(\\\"clear\\\");\\n  }\\n\\n  function clearClasses() {\\n   nclass=\\\"_default\\\";  \\n  }\\n\\nlet label = '';\\n\\n$: {\\n    if (label!='') {\\n        socket.emit(\\\"updateNodeLabel\\\", {id:0, label:label})\\n    }\\n}\\n  \\n  \\nlet nclass = '';\\n\\n$: {\\n    if (nclass!='') {\\n        socket.emit(\\\"updateNodeClass\\\", {id:0, class:nclass})\\n    }\\n}\\n</script>\\n\\n<body>\\n  <div class=\\\"graph\\\" id=\\\"mynet\\\"></div>\\n  <button on:click={changeNode}>Change Node</button>\\n  <button on:click={addNode}>Add Node</button>\\n  <button on:click={clear}>Clear</button>\\n <button on:click={clearClasses}>Clear classes</button>\\n <p>Label: <input bind:value={label}>\\n    Class: <input bind:value={nclass}>\\n</p>\\n\\n\\n</body>\\n\"],\"names\":[],\"mappings\":\"AACE,eAAE,CAAC,AACD,MAAM,CAAE,CAAC,CACT,OAAO,CAAE,CAAC,CACV,UAAU,CAAE,UAAU,CACtB,QAAQ,CAAE,MAAM,AAClB,CAAC,AAED,IAAI,eAAC,CAAC,AACJ,IAAI,CAAE,IAAI,CAAC,WAAW,CACtB,WAAW,KAAK,AAClB,CAAC,eAID,aAAa,AAAC,CAAC,AACb,KAAK,CAAE,OAAO,AAChB,CAAC,AAID,MAAM,eAAC,CAAC,AACN,gBAAgB,CAAE,KAAK,CACvB,OAAO,KAAK,CACZ,MAAM,IAAI,AACZ,CAAC\"}"
 };
 
 const Graphpad = create_ssr_component(($$result, $$props, $$bindings, $$slots) => {
@@ -564,8 +564,9 @@ let nclass = '';
 	  <button class="svelte-1888aql">Add Node</button>
 	  <button class="svelte-1888aql">Clear</button>
 	 <button class="svelte-1888aql">Clear classes</button>
-	Label: <input class="svelte-1888aql"${add_attribute("value", label)}>
-	Class: <input class="svelte-1888aql"${add_attribute("value", nclass)}>
+	 <p class="svelte-1888aql">Label: <input class="svelte-1888aql"${add_attribute("value", label)}>
+	    Class: <input class="svelte-1888aql"${add_attribute("value", nclass)}>
+	</p>
 
 
 	</body>`;
@@ -3404,24 +3405,24 @@ io$1(server).on('connection', function(socket) {
 		//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
 			let snode = userGraph.nodes.find(e => e.id === node.id);
 			
-				let style = nodeStyles[node.class ? node.class:'_default'];
-				if (style===undefined) {
-					style = nodeStyles._default;
-				}
-				snode = {...snode, id: node.id, class:node.class, ...style}; //, ...style}
-				socket.emit("message" ,JSON.stringify(snode));
-				userGraph.nodes =  [...userGraph.nodes, snode];
-				// notify all users that the whole graph has been updated
-				updateGraph(socket);
+			let style = nodeStyles[node.class ? node.class:'_default'];
+			if (style===undefined) {
+				style = nodeStyles._default;
+			}
+			snode = {...snode, id: node.id, class:node.class, ...style}; //, ...style}
+			socket.emit("message" ,JSON.stringify(snode));
+			userGraph.nodes =  [...userGraph.nodes, snode];
+			// notify all users that the whole graph has been updated
+			updateGraph(socket);
 
-				// notify all users but the sender that this node class has changed
-				socket.broadcast.emit("nodeClassUpdated", snode);
+			// notify all users but the sender that this node class has changed
+			socket.broadcast.emit("nodeClassUpdated", snode);
 
 		});
 
 	socket.on('updateNodeLabel', function(node) {
 	//	socket.emit("message", "nodeUpdated "+JSON.stringify(node))
-		let snode = userGraph.nodes.find(e => e.id === node.id);
+			let snode = userGraph.nodes.find(e => e.id === node.id);
 			snode = {...snode, id: node.id, label:node.label}; //, ...style}
 			//socket.emit("message" ,JSON.stringify(snode));
 			userGraph.nodes =  [...userGraph.nodes, snode];
@@ -3429,7 +3430,6 @@ io$1(server).on('connection', function(socket) {
 
 			// notify all users but the sender that this node class has changed
 			socket.broadcast.emit("nodeLabelUpdated", snode);
-
 	});
 
 	socket.on('clear', function() {
@@ -3447,6 +3447,5 @@ io$1(server).on('connection', function(socket) {
 		socket.broadcast.emit("userGraph",userGraph); */
 	});
 
-   
 	
 });
