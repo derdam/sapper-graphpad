@@ -1,5 +1,46 @@
-import { S as SvelteComponentDev, i as init, s as safe_not_equal, c as create_slot, e as element, a as claim_element, b as children, d as detach$1, f as attr, g as add_location, h as insert, j as get_slot_changes, k as get_slot_context, t as transition_in, l as transition_out, m as globals, o as text, p as claim_text, q as append, r as set_data, u as space, v as empty, n as noop, w as assign, x as mount_component, y as get_spread_update, z as destroy_component, A as setContext, B as group_outros, C as check_outros } from './chunk.b4b1df76.js';
-import { w as writable } from './chunk.4ff06fb1.js';
+import { s as safe_not_equal, n as noop, S as SvelteComponentDev, i as init, c as create_slot, e as element, a as claim_element, b as children, d as detach$1, f as attr, g as add_location, h as insert, j as get_slot_changes, k as get_slot_context, t as transition_in, l as transition_out, m as globals, o as text, p as claim_text, q as append, r as set_data, u as space, v as empty, w as assign, x as mount_component, y as get_spread_update, z as destroy_component, A as setContext, B as group_outros, C as check_outros } from './chunk.0e38c6f1.js';
+
+/**
+ * Create a `Writable` store that allows both updating and reading by subscription.
+ * @param {*=}value initial value
+ * @param {StartStopNotifier=}start start and stop notifications for subscriptions
+ */
+function writable(value, start = noop) {
+    let stop;
+    const subscribers = [];
+    function set(new_value) {
+        if (safe_not_equal(value, new_value)) {
+            value = new_value;
+            if (!stop) {
+                return; // not ready
+            }
+            subscribers.forEach((s) => s[1]());
+            subscribers.forEach((s) => s[0](value));
+        }
+    }
+    function update(fn) {
+        set(fn(value));
+    }
+    function subscribe(run, invalidate = noop) {
+        const subscriber = [run, invalidate];
+        subscribers.push(subscriber);
+        if (subscribers.length === 1) {
+            stop = start(set) || noop;
+        }
+        run(value);
+        return () => {
+            const index = subscribers.indexOf(subscriber);
+            if (index !== -1) {
+                subscribers.splice(index, 1);
+            }
+            if (subscribers.length === 0) {
+                stop();
+                stop = null;
+            }
+        };
+    }
+    return { set, update, subscribe };
+}
 
 const CONTEXT_KEY = {};
 
@@ -694,24 +735,16 @@ const ignore = [];
 
 const components = [
 	{
-		js: () => import('./index.04b99af3.js'),
-		css: ["index.04b99af3.css","chunk.53e2f336.css"]
+		js: () => import('./index.48cf3a35.js'),
+		css: ["index.48cf3a35.css","chunk.54fb5fdb.css"]
 	},
 	{
-		js: () => import('./classification.37b85797.js'),
-		css: ["classification.37b85797.css"]
+		js: () => import('./graph-users.24fc3b41.js'),
+		css: ["graph-users.24fc3b41.css","chunk.54fb5fdb.css"]
 	},
 	{
-		js: () => import('./graph-users.3097339d.js'),
-		css: ["graph-users.3097339d.css","chunk.53e2f336.css"]
-	},
-	{
-		js: () => import('./[slug].684479e3.js'),
-		css: ["[slug].684479e3.css","chunk.53e2f336.css"]
-	},
-	{
-		js: () => import('./graphpad[slug].bc9708d1.js'),
-		css: ["graphpad[slug].bc9708d1.css","chunk.53e2f336.css"]
+		js: () => import('./[slug].bf32aa60.js'),
+		css: ["[slug].bf32aa60.css","chunk.54fb5fdb.css"]
 	}
 ];
 
@@ -725,18 +758,10 @@ const routes = (d => [
 	},
 
 	{
-		// classification.svelte
-		pattern: /^\/classification\/?$/,
-		parts: [
-			{ i: 1 }
-		]
-	},
-
-	{
 		// graph-users.svelte
 		pattern: /^\/graph-users\/?$/,
 		parts: [
-			{ i: 2 }
+			{ i: 1 }
 		]
 	},
 
@@ -745,15 +770,7 @@ const routes = (d => [
 		pattern: /^\/graphpads\/([^\/]+?)\/?$/,
 		parts: [
 			null,
-			{ i: 3, params: match => ({ slug: d(match[1]) }) }
-		]
-	},
-
-	{
-		// graphpad[slug].svelte
-		pattern: /^\/graphpad([^\/]+?)\/?$/,
-		parts: [
-			{ i: 4, params: match => ({ slug: d(match[1]) }) }
+			{ i: 2, params: match => ({ slug: d(match[1]) }) }
 		]
 	}
 ])(decodeURIComponent);

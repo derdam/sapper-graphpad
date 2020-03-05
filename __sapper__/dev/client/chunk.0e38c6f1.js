@@ -26,17 +26,6 @@ function is_function(thing) {
 function safe_not_equal(a, b) {
     return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
 }
-function validate_store(store, name) {
-    if (!store || typeof store.subscribe !== 'function') {
-        throw new Error(`'${name}' is not a store with a 'subscribe' method`);
-    }
-}
-function subscribe(component, store, callback) {
-    const unsub = store.subscribe(callback);
-    component.$$.on_destroy.push(unsub.unsubscribe
-        ? () => unsub.unsubscribe()
-        : unsub);
-}
 function create_slot(definition, ctx, fn) {
     if (definition) {
         const slot_ctx = get_slot_context(definition, ctx, fn);
@@ -614,4 +603,4 @@ class SvelteComponentDev extends SvelteComponent {
     }
 }
 
-export { setContext as A, group_outros as B, check_outros as C, create_bidirectional_transition as D, listen as E, prevent_default as F, destroy_each as G, run_all as H, add_render_callback as I, validate_store as J, subscribe as K, onMount as L, SvelteComponentDev as S, claim_element as a, children as b, create_slot as c, detach as d, element as e, attr as f, add_location as g, insert as h, init as i, get_slot_changes as j, get_slot_context as k, transition_out as l, globals as m, noop as n, text as o, claim_text as p, append as q, set_data as r, safe_not_equal as s, transition_in as t, space as u, empty as v, assign as w, mount_component as x, get_spread_update as y, destroy_component as z };
+export { setContext as A, group_outros as B, check_outros as C, create_bidirectional_transition as D, listen as E, prevent_default as F, destroy_each as G, run_all as H, add_render_callback as I, onMount as J, SvelteComponentDev as S, claim_element as a, children as b, create_slot as c, detach as d, element as e, attr as f, add_location as g, insert as h, init as i, get_slot_changes as j, get_slot_context as k, transition_out as l, globals as m, noop as n, text as o, claim_text as p, append as q, set_data as r, safe_not_equal as s, transition_in as t, space as u, empty as v, assign as w, mount_component as x, get_spread_update as y, destroy_component as z };
